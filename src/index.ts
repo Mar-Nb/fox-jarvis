@@ -1,7 +1,16 @@
-import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-
 dotenv.config();
+
+import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import { Command } from "./types/Command.js";
+import ping from "./commands/utility/ping.js";
+
+// Augment the type of Client with the "commands" property, to ease its transmission
+declare module "discord.js" {
+  interface Client {
+    commands: Collection<string, Command>;
+  }
+}
 
 const client = new Client({
   intents: [
@@ -11,13 +20,39 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
-  console.log(`Logged in as ${client.user?.tag}!`);
+client.commands = new Collection();
+client.commands.set(ping.data.name, ping);
+
+client.once(Events.ClientReady, (clientReady) => {
+  console.log(`Logged in as ${clientReady.user.tag}!`);
 });
 
-client.on("messageCreate", (message) => {
-  if (message.content.includes("ping")) {
-    message.reply("Pong !");
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isChatInputCommand()) {
+    return;
+  }
+
+  const command = client.commands.get(interaction.commandName);
+  if (!command) {
+    console.error(`No command matching ${interaction.commandName} was found.`);
+    return;
+  }
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    if (interaction.replied || interaction.deferred) {
+      await interaction.followUp({
+        content: "There was an error while executing this command!",
+        ephemeral: true,
+      });
+    } else {
+      await interaction.reply({
+        content: "There was an error while executing this command!",
+        ephemeral: true,
+      });
+    }
   }
 });
 
