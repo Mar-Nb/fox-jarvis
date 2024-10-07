@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import ping from "./commands/utility/ping.js";
+import kick from "./commands/utility/kick.js";
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -11,6 +12,7 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.commands.set(ping.data.name, ping);
+client.commands.set(kick.data.name, kick);
 client.once(Events.ClientReady, (clientReady) => {
     console.log(`Logged in as ${clientReady.user.tag}!`);
 });
@@ -18,7 +20,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) {
         return;
     }
-    const command = client.commands.get(interaction.commandName);
+    const command = interaction.client.commands.get(interaction.commandName);
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);
         return;

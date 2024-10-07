@@ -6,6 +6,10 @@ const commands = [
         name: "ping",
         description: "Affiche la latence du bot",
     },
+    {
+        name: "kick",
+        description: "Kick un membre du serveur",
+    },
 ];
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 try {
