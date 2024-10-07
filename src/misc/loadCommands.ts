@@ -1,23 +1,11 @@
 import dotenv from "dotenv";
 import { REST, Routes } from "discord.js";
+import ping from "../commands/utility/ping.js";
+import kick from "../commands/utility/kick.js";
 
 dotenv.config();
 
-interface SlashCommand {
-  name: string;
-  description: string;
-}
-
-const commands: SlashCommand[] = [
-  {
-    name: "ping",
-    description: "Affiche la latence du bot",
-  },
-  {
-    name: "kick",
-    description: "Kick un membre du serveur",
-  },
-];
+const commands = [{ ...ping.data }, { ...kick.data }];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
