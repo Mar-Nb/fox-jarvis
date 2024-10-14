@@ -47,10 +47,12 @@ export default {
     }
 
     try {
+      /* It may be possible that the bot cannot send message to an already kicked guild member */
+      // await guildMember.send(
+      //   `Vous avez été kick du serveur ${interaction.guild?.name} pour la raison : ${reason}`,
+      // );
+
       await guildMember.kick(reason || "");
-      await guildMember.send(
-        `Vous avez été kick du serveur ${interaction.guild?.name} pour la raison : ${reason}`,
-      );
       await interaction.reply(
         `${member?.tag} a été expulsé, pour la raison : ${reason}`,
       );
@@ -58,7 +60,7 @@ export default {
       console.error(error);
       await interaction.reply({
         ephemeral: true,
-        content: "Une erreur est survenue pendant le kick",
+        content: "Une erreur est survenue pendant le kick: " + error,
       });
     }
   },
