@@ -4,6 +4,7 @@ import ping from "../commands/utility/ping.js";
 import kick from "../commands/utility/kick.js";
 import mute from "../commands/utility/mute.js";
 import unmute from "../commands/utility/unmute.js";
+import clear from "../commands/utility/clear.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const commands = [
   { ...kick.data },
   { ...mute.data },
   { ...unmute.data },
+  { ...clear.data },
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);

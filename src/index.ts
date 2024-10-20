@@ -7,6 +7,7 @@ import ping from "./commands/utility/ping.js";
 import kick from "./commands/utility/kick.js";
 import mute from "./commands/utility/mute.js";
 import unmute from "./commands/utility/unmute.js";
+import clear from "./commands/utility/clear.js";
 
 // Augment the type of Client with the "commands" property, to ease its transmission
 declare module "discord.js" {
@@ -28,6 +29,7 @@ client.commands.set(ping.data.name, ping);
 client.commands.set(kick.data.name, kick);
 client.commands.set(mute.data.name, mute);
 client.commands.set(unmute.data.name, unmute);
+client.commands.set(clear.data.name, clear);
 
 client.once(Events.ClientReady, (clientReady) => {
   console.log(`Logged in as ${clientReady.user.tag}!`);
