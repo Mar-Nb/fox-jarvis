@@ -1,13 +1,21 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import {
+  Client,
+  Collection,
+  Events,
+  GatewayIntentBits,
+  Message,
+  TextChannel,
+} from "discord.js";
 import { Command } from "./types/Command.js";
 import ping from "./commands/utility/ping.js";
 import kick from "./commands/utility/kick.js";
 import mute from "./commands/utility/mute.js";
 import unmute from "./commands/utility/unmute.js";
 import clear from "./commands/utility/clear.js";
+import { rewriteLink } from "./services/linkRewriter.js";
 
 // Augment the type of Client with the "commands" property, to ease its transmission
 declare module "discord.js" {
@@ -59,6 +67,28 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await interaction.reply({
         content: "There was an error while executing this command!",
         ephemeral: true,
+      });
+    }
+  }
+});
+
+client.on(Events.MessageCreate, async (message: Message) => {
+  if (message.author.bot) {
+    return;
+  }
+
+  const containsLinkRegex =
+    /(https?:\/\/)?(www\.)?[\w-]+\.[a-z]+(\/[\w-./?%&=]*)?/i;
+
+  if (message.content.match(containsLinkRegex)) {
+    const rewritedLink = rewriteLink(message.content);
+
+    if (rewritedLink) {
+      const author = message.author;
+      await message.delete();
+      await (message.channel as TextChannel).send({
+        content: `${author} a partagé un lien : ${rewritedLink}`,
+        allowedMentions: { users: [] },
       });
     }
   }
