@@ -1,7 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import {
+  Client,
+  Collection,
+  Events,
+  GatewayIntentBits,
+  Message,
+} from "discord.js";
 import { Command } from "./types/Command.js";
 import ping from "./commands/utility/ping.js";
 import kick from "./commands/utility/kick.js";
@@ -61,6 +67,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
         ephemeral: true,
       });
     }
+  }
+});
+
+client.on(Events.MessageCreate, (message: Message) => {
+  if (message.author.bot) {
+    return;
+  }
+
+  const containsLinkRegex =
+    /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#])?/;
+  if (containsLinkRegex.test(message.content)) {
+    message.reply("Le message contient un lien");
   }
 });
 
