@@ -2,10 +2,11 @@ import dotenv from "dotenv";
 import { REST, Routes } from "discord.js";
 import ping from "../commands/utility/ping.js";
 import kick from "../commands/utility/kick.js";
+import mute from "../commands/utility/mute.js";
 
 dotenv.config();
 
-const commands = [{ ...ping.data }, { ...kick.data }];
+const commands = [{ ...ping.data }, { ...kick.data }, { ...mute.data }];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 

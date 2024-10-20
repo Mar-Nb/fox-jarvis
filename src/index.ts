@@ -5,6 +5,7 @@ import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import { Command } from "./types/Command.js";
 import ping from "./commands/utility/ping.js";
 import kick from "./commands/utility/kick.js";
+import mute from "./commands/utility/mute.js";
 
 // Augment the type of Client with the "commands" property, to ease its transmission
 declare module "discord.js" {
@@ -24,6 +25,7 @@ const client = new Client({
 client.commands = new Collection();
 client.commands.set(ping.data.name, ping);
 client.commands.set(kick.data.name, kick);
+client.commands.set(mute.data.name, mute);
 
 client.once(Events.ClientReady, (clientReady) => {
   console.log(`Logged in as ${clientReady.user.tag}!`);
