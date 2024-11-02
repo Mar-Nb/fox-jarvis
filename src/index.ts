@@ -87,7 +87,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
       const author = message.author;
       await message.delete();
       await (message.channel as TextChannel).send({
-        content: `${author} a partagé un lien : ${rewritedLink}`,
+        content: `🤖 BIP BIP - Réparation du lien de ${author} :\n${rewritedLink}`,
         allowedMentions: { users: [] },
       });
     }
