@@ -59,6 +59,9 @@ client.on(Events.MessageCreate, async (message) => {
     if (message.content.match(containsLinkRegex)) {
         const rewritedLink = rewriteLink(message.content);
         if (rewritedLink) {
+            if (message.content === rewritedLink) {
+                return;
+            }
             const author = message.author;
             await message.delete();
             await message.channel.send({

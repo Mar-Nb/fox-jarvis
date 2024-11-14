@@ -84,6 +84,10 @@ client.on(Events.MessageCreate, async (message: Message) => {
     const rewritedLink = rewriteLink(message.content);
 
     if (rewritedLink) {
+      if (message.content === rewritedLink) {
+        return;
+      }
+
       const author = message.author;
       await message.delete();
       await (message.channel as TextChannel).send({
