@@ -12,5 +12,9 @@ const rewriteTwitter = (link) => {
     return link.replace(twitterLinkRegex, "https://vxtwitter.com");
 };
 const rewriteInsta = (link) => {
+    // Profil link are not handled by ddinstagram
+    if (!link.includes("/p/") && !link.includes("/reel/")) {
+        return link;
+    }
     return link.replace(instaLinkRegex, "https://ddinstagram.com");
 };

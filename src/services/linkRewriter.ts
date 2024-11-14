@@ -16,5 +16,10 @@ const rewriteTwitter = (link: string) => {
 };
 
 const rewriteInsta = (link: string) => {
+  // Profil link are not handled by ddinstagram
+  if (!link.includes("/p/") && !link.includes("/reel/")) {
+    return link;
+  }
+
   return link.replace(instaLinkRegex, "https://ddinstagram.com");
 };
