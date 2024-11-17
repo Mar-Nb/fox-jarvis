@@ -1,5 +1,6 @@
 const twitterLinkRegex = /https?:\/\/(www\.)?(twitter\.com|x\.com)/i;
 const instaLinkRegex = /(https?:\/\/)?(www\.)?instagram\.com/i;
+const tiktokLinkRegex = /(https?:\/\/)?(www\.)?([A-z]*\.)?tiktok\.com/i;
 
 export const rewriteLink = (link: string) => {
   if (link.match(twitterLinkRegex)) {
@@ -8,6 +9,10 @@ export const rewriteLink = (link: string) => {
 
   if (link.match(instaLinkRegex)) {
     return rewriteInsta(link);
+  }
+
+  if (link.match(tiktokLinkRegex)) {
+    return rewriteTiktok(link);
   }
 };
 
@@ -22,4 +27,8 @@ const rewriteInsta = (link: string) => {
   }
 
   return link.replace(instaLinkRegex, "https://ddinstagram.com");
+};
+
+const rewriteTiktok = (link: string) => {
+  return link.replace(tiktokLinkRegex, "https://d.tnktok.com");
 };
