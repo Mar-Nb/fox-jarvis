@@ -1,5 +1,5 @@
-const twitterLinkRegex = /https?:\/\/(www\.)?(twitter\.com|x\.com)/i;
-const instaLinkRegex = /(https?:\/\/)?(www\.)?instagram\.com/i;
+const twitterLinkRegex = /^(https?:\/\/)?(www\.)?(twitter\.com|x\.com)/i;
+const instaLinkRegex = /^(https?:\/\/)?(www\.)?instagram\.com/i;
 const tiktokLinkRegex = /(https?:\/\/)?(www\.)?([A-z]*\.)?tiktok\.com/i;
 
 export const rewriteLink = (link: string) => {
