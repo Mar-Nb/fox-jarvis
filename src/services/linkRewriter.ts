@@ -22,7 +22,7 @@ const rewriteTwitter = (link: string) => {
 
 const rewriteInsta = (link: string) => {
   // Profil link are not handled by ddinstagram
-  if (!link.includes("/p/") && !link.includes("/reel/")) {
+  if (link.includes("/p/") || link.includes("/reel/")) {
     return link;
   }
 
@@ -30,10 +30,7 @@ const rewriteInsta = (link: string) => {
 };
 
 const rewriteTiktok = (link: string) => {
-  // Multi-images slideshow don't work with direct embeds
-  if (link.includes("/photo/")) {
-    return link.replace(tiktokLinkRegex, "https://tnktok.com");
-  }
-
-  return link.replace(tiktokLinkRegex, "https://d.tnktok.com");
+  return link
+    .replace(tiktokLinkRegex, "https://tnktok.com")
+    .concat("?isDirect=true");
 };

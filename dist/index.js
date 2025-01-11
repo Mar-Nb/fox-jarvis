@@ -57,15 +57,15 @@ client.on(Events.MessageCreate, async (message) => {
     }
     const containsLinkRegex = /(https?:\/\/)?(www\.)?[\w-]+\.[a-z]+(\/[\w-./?%&=]*)?/i;
     if (message.content.match(containsLinkRegex)) {
-        const rewritedLink = rewriteLink(message.content);
-        if (rewritedLink) {
-            if (message.content === rewritedLink) {
+        const alteredMessage = rewriteLink(message.content);
+        if (alteredMessage) {
+            if (message.content === alteredMessage) {
                 return;
             }
             const author = message.author;
             await message.delete();
             await message.channel.send({
-                content: `🤖 BIP BIP - Réparation du lien de ${author} :\n${rewritedLink}`,
+                content: `🤖 BIP BIP - Réparation du lien de ${author} :\n${alteredMessage}`,
                 allowedMentions: { users: [] },
             });
         }
